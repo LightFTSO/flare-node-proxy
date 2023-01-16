@@ -2,18 +2,18 @@ package main
 
 import (
 	"crypto/tls"
-	"fmt"
-	"time"
-
-	"github.com/lightftso/flare-proxy/middlewares"
-
 	"flag"
+	"fmt"
 	"log"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/monitor"
 	"github.com/gofiber/fiber/v2/middleware/proxy"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+
+	"flare-node-proxy/middlewares"
 )
 
 var (
@@ -21,6 +21,7 @@ var (
 	endpoint      = flag.String("endpoint", "http://localhost:9650", "Flare (or Avax) node this program will proxy requests to")
 	enablemonitor = flag.Bool("monitor", false, "Enable Fiber Server Monitor on /flareproxy/metrics")
 	prod          = flag.Bool("prod", false, "Enable prefork in Production")
+	verbose       = flag.Bool("verbose", false, "Enable verbose logs")
 )
 
 func main() {
@@ -30,9 +31,9 @@ func main() {
 	// Create fiber app
 	app := fiber.New(fiber.Config{
 		Prefork:      *prod, // go run app.go -prod
-		ReadTimeout:  time.Second * 5,
-		WriteTimeout: time.Second * 5,
-		IdleTimeout:  time.Second * 5,
+		ReadTimeout:  time.Second * 10,
+		WriteTimeout: time.Second * 10,
+		IdleTimeout:  time.Second * 10,
 		AppName:      "Flare Node Proxy",
 	})
 
@@ -45,10 +46,14 @@ func main() {
 	app.Use(logger.New(logger.Config{
 		Format: "[${ip}]:${port} ${status} ${latency} - ${method} ${path}\n",
 	}))
+	app.Use(func(c *fiber.Ctx) error {
+		c.Locals("verbose", *verbose)
+		return c.Next()
+	})
 
 	// Enable monitor from Fiber
 	if *enablemonitor {
-		//app.Get("/flareproxy/metrics", monitor.New(monitor.Config{Title: "Flare Node Proxy Metrics Page"}))
+		app.Get("/flareproxy/metrics", monitor.New(monitor.Config{Title: "Flare Node Proxy Metrics Page"}))
 		fmt.Println("Monitor enabled")
 	}
 
@@ -58,7 +63,9 @@ func main() {
 	// Proxy requests to specified host
 	app.All("*", func(c *fiber.Ctx) error {
 		url := *endpoint + c.Path()
-		fmt.Println(url)
+		if *verbose {
+			fmt.Println(url)
+		}
 		if err := proxy.Do(c, url); err != nil {
 			return err
 		}

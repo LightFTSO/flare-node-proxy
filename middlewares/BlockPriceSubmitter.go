@@ -40,11 +40,13 @@ func BlockPriceSubmitter(c *fiber.Ctx) error {
 		return err
 	}
 
-	fmt.Printf("from: %s to: %s\n", tx.Params[0].From, tx.Params[0].To)
+	if c.Locals("verbose") == true {
+		fmt.Printf("from: %s to: %s\n", tx.Params[0].From, tx.Params[0].To)
+	}
 
 	for _, params := range tx.Params {
 		if params.To == PRICE_SUBMITTER_ADDRESS {
-			fmt.Printf("Request to PriceSubmitter from address %s detected", params.From)
+			fmt.Printf("Blocked to PriceSubmitter from address %s", params.From)
 			return c.Status(400).SendStatus(400)
 		}
 	}

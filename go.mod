@@ -1,4 +1,4 @@
-module boilerplate
+module flare-node-proxy
 
 go 1.19
 
