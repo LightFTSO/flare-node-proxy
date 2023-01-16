@@ -15,6 +15,9 @@ up:
 	make shell
 
 build:
+	go build -o build/${project_name} app.go
+
+docker-build:
 	docker build -t $(image_name) .
 
 build-no-cache:
@@ -39,6 +42,3 @@ stop:
 
 start:
 	docker start $(project_name)
-
-dev:
-	reflex -r '\.go$$' -s -- go run app.go
