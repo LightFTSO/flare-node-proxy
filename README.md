@@ -1,8 +1,8 @@
 # Flare Node Proxy
 
-![Delegate](https://img.shields.io/badge/Delegate-here-orange)[https://lightft.so/delegate]
-![Github](https://img.shields.io/github/followers/LightFTSO?style=social)[https://github.com/LightFTSO]
-![Twitter](https://img.shields.io/twitter/follow/lightFTSO?style=social)[https://twitter.com/lightFTSO]
+![Delegate](https://img.shields.io/badge/Delegate-here-orange)(https://lightft.so/delegate)
+![Github](https://img.shields.io/github/followers/LightFTSO?style=social)(https://github.com/LightFTSO)
+![Twitter](https://img.shields.io/twitter/follow/lightFTSO?style=social)(https://twitter.com/lightFTSO)
 ![Telegram](https://img.shields.io/badge/discord-join%20channel-7289DA)](https://t.me/LightFTSO)
 ![Security](https://github.com/gofiber/boilerplate/workflows/Security/badge.svg)
 ![Linter](https://github.com/gofiber/boilerplate/workflows/Linter/badge.svg)
