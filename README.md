@@ -12,7 +12,7 @@
 
 This app works as a proxy with public Flare API providers in mind. It includes a middleware that blocks requests to the PriceSubmitter contract
 by default.
-It doesn't modify, record, or do anything with the request other than rejecting requests to the PriceSubmitter contract (0x1000000000000000000000000000000000000003).
+It doesn't modify, record, or do anything with the request other than rejecting requests to the PriceSubmitter contract (**0x1000000000000000000000000000000000000003**).
 
 It uses GoFiber's Proxy to forward requests to the specified endpoint, the requests should get there intact, and come back intact too.
 
@@ -20,6 +20,8 @@ It uses GoFiber's Proxy to forward requests to the specified endpoint, the reque
 * Handle proxy to websockets
 * Implement better logging (maybe it's not needed?)
 
+
+## How to use
 ### Start the application 
 
 
