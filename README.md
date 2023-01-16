@@ -4,8 +4,8 @@
 [![Github](https://img.shields.io/github/followers/LightFTSO?style=social)](https://github.com/LightFTSO)
 [![Twitter](https://img.shields.io/twitter/follow/lightFTSO?style=social)](https://twitter.com/lightFTSO)
 [![Telegram](https://img.shields.io/badge/Telegram--blue?logo=telegram)](https://t.me/LightFTSO)
-![Security](https://github.com/gofiber/boilerplate/workflows/Security/badge.svg)
-![Linter](https://github.com/gofiber/boilerplate/workflows/Linter/badge.svg)
+![Security](https://github.com/LightFTSO/flare-node-proxy/workflows/Security/badge.svg)
+![Linter](https://github.com/LightFTSO/flare-node-proxy/workflows/Linter/badge.svg)
 
 
 ## Description
