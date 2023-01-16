@@ -1,7 +1,6 @@
 package main
 
 import (
-	"crypto/tls"
 	"flag"
 	"fmt"
 	"log"
@@ -35,10 +34,6 @@ func main() {
 		WriteTimeout: time.Second * 10,
 		IdleTimeout:  time.Second * 10,
 		AppName:      "Flare Node Proxy",
-	})
-
-	proxy.WithTlsConfig(&tls.Config{
-		InsecureSkipVerify: true,
 	})
 
 	// Standard middlewares
