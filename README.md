@@ -15,6 +15,7 @@ by default.
 It doesn't modify, record, or do anything with the request other than rejecting requests to the PriceSubmitter contract (**0x1000000000000000000000000000000000000003**).
 
 It uses GoFiber's Proxy to forward requests to the specified endpoint, the requests should get there intact, and come back intact too.
+And it also uses [goccy/go-json](https://github.com/goccy/go-json) to make JSON marshalling/unmarshalling faster
 
 ## TODO
 * Handle proxy to websockets
