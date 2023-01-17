@@ -43,7 +43,8 @@ var blocked_response = fiber.Map{
 	"id":      2,
 	"error": fiber.Map{
 		"code":    -32600,
-		"message": "transaction blocked"},
+		"message": "transaction blocked",
+	},
 }
 
 // Check if the body of the request contains field called 'to' with the PriceSubmitter contract addres
