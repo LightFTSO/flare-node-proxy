@@ -38,6 +38,14 @@ type SignedTransactionRequest struct {
 var PRICE_SUBMITTER_ADDRESS = "0x1000000000000000000000000000000000000003"
 var BLOCKED_METHODS = []string{"eth_signTransaction", "eth_sendTransaction", "eth_sendRawTransaction"}
 
+var blocked_response = fiber.Map{
+	"jsonrpc": "2.0",
+	"id":      2,
+	"error": fiber.Map{
+		"code":    -32600,
+		"message": "transaction blocked"},
+}
+
 // Check if the body of the request contains field called 'to' with the PriceSubmitter contract addres
 // 0x1000000000000000000000000000000000000003
 func BlockPriceSubmitter(c *fiber.Ctx) error {
@@ -60,7 +68,7 @@ func BlockPriceSubmitter(c *fiber.Ctx) error {
 				}
 				if to.String() == PRICE_SUBMITTER_ADDRESS {
 					fmt.Printf("Blocked tx to PriceSubmitter from address %s\n", from.String())
-					return c.Status(400).SendStatus(400)
+					return c.Status(200).JSON(blocked_response)
 				}
 			}
 		} else {
@@ -71,7 +79,7 @@ func BlockPriceSubmitter(c *fiber.Ctx) error {
 			for _, params := range tx.Params {
 				if params.To == PRICE_SUBMITTER_ADDRESS {
 					fmt.Printf("Blocked tx to PriceSubmitter from address %s\n", params.From)
-					return c.Status(400).SendStatus(400)
+					return c.Status(200).JSON(blocked_response)
 				}
 			}
 		}
