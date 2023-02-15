@@ -18,10 +18,12 @@ func readWhitelistFile(path *string) {
 	whitelist_file, err := os.ReadFile(*path)
 	if err != nil {
 		log.Errorf("Error reading whitelist file from %s", *path)
+		return
 	}
 
 	if err = json.Unmarshal(whitelist_file, &whitelisted_addresses); err != nil {
 		log.Errorf("Error parsing white list file from %s", *path)
+		return
 	}
 
 	log.Infoln("Whitelisted addresses:", whitelisted_addresses)
