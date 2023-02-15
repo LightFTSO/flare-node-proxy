@@ -14,7 +14,7 @@ This app works as a proxy with public Flare API providers in mind. It includes a
 by default.
 It doesn't modify, record, or do anything with the request other than rejecting transactions to the PriceSubmitter contract (**0x1000000000000000000000000000000000000003**).
 
-It uses GoFiber's Proxy to forward requests to the specified endpoint, the requests should get there intact, and come back intact too.
+It uses [GoFiber](https://github.com/gofiber/fiber)'s Proxy to forward requests to the specified endpoint, the requests should get there intact, and come back intact too.
 And it also uses [goccy/go-json](https://github.com/goccy/go-json) to make JSON marshalling/unmarshalling faster.
 
 ## TODO
