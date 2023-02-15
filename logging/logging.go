@@ -11,12 +11,12 @@ import (
 var BlockedIpsAndAddressesLogger = log.New()
 
 func Setup() {
-	err := os.MkdirAll("./logs", 0755)
+	err := os.MkdirAll("./logs", 0750)
 	if err != nil {
 		panic(err)
 	}
 
-	logfile, err := os.OpenFile("./logs/output.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	logfile, err := os.OpenFile("./logs/output.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
 	if err != nil {
 		panic(err)
 	}
@@ -30,7 +30,7 @@ func Setup() {
 	})
 	log.SetOutput(multioutput)
 
-	blocked_txs_logfile, err := os.OpenFile("./logs/blocked.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	blocked_txs_logfile, err := os.OpenFile("./logs/blocked.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
 	if err != nil {
 		panic(err)
 	}
