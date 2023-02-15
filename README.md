@@ -19,8 +19,8 @@ And it also uses [goccy/go-json](https://github.com/goccy/go-json) to make JSON 
 
 ## TODO
 * Handle proxy to websockets
-* Implement whitelisting of preapproved addresses, with optional expiration dates
-* Implement better logging (maybe it's not needed?)
+* Fix reading whitelist file from the current running directory, for some reason the watcher doesn't emit events
+* Implement expiration dates for whitelisted addresses
 
 
 ## How to use
@@ -28,7 +28,7 @@ And it also uses [goccy/go-json](https://github.com/goccy/go-json) to make JSON 
 
 
 ```bash
-go run app.go --monitor --port :3000 --endpoint http://localhost:9650
+go run app.go --monitor --port :3000 --endpoint http://localhost:9650 --watchlist "/path/to/whitelist/file.json"
 ```
 
 ### Help

@@ -7,4 +7,6 @@ var (
 	Endpoint      = flag.String("endpoint", "https://songbird-api.flare.network", "Flare (or Avax) node this program will proxy requests to")
 	Enablemonitor = flag.Bool("monitor", false, "Enable Fiber Server Monitor on /flareproxy/metrics")
 	Prod          = flag.Bool("prod", false, "Enable prefork in Production")
+
+	WhitelistFilePath = flag.String("whitelist", "~/price_submitter_whitelist.json", "JSON file path with whitelisted addresses, \"~/price_submitter_whitelist.json\" by default")
 )

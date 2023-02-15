@@ -1,11 +1,12 @@
 package middlewares
 
 import (
-	"fmt"
-
 	"github.com/gofiber/fiber/v2"
+	log "github.com/sirupsen/logrus"
 
+	block_tx_logger "flare-node-proxy/logging"
 	"flare-node-proxy/utils"
+	"flare-node-proxy/whitelist"
 )
 
 // Example Blocked Transaction request
@@ -67,8 +68,9 @@ func BlockPriceSubmitter(c *fiber.Ctx) error {
 				if err != nil {
 					return err
 				}
-				if to.String() == PRICE_SUBMITTER_ADDRESS {
-					fmt.Printf("Blocked tx to PriceSubmitter from address %s\n", from.String())
+				if to.String() == PRICE_SUBMITTER_ADDRESS && !whitelist.CheckWhitelist(from.String()) {
+					log.Infof("Blocked tx to PriceSubmitter from address %s", from.String())
+					block_tx_logger.BlockedIpsAndAddressesLogger.WithFields(log.Fields{"ip": c.IP(), "from": from.String()}).Info("transaction blocked")
 					return c.Status(200).JSON(blocked_response)
 				}
 			}
@@ -78,8 +80,9 @@ func BlockPriceSubmitter(c *fiber.Ctx) error {
 				return err
 			}
 			for _, params := range tx.Params {
-				if params.To == PRICE_SUBMITTER_ADDRESS {
-					fmt.Printf("Blocked tx to PriceSubmitter from address %s\n", params.From)
+				if params.To == PRICE_SUBMITTER_ADDRESS && !whitelist.CheckWhitelist(params.From) {
+					log.Infof("Blocked tx to PriceSubmitter from address %s", params.From)
+					block_tx_logger.BlockedIpsAndAddressesLogger.WithFields(log.Fields{"ip": c.IP(), "from": params.From}).Info("transaction blocked")
 					return c.Status(200).JSON(blocked_response)
 				}
 			}
