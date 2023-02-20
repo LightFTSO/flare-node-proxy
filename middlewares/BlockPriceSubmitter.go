@@ -54,19 +54,22 @@ func BlockPriceSubmitter(c *fiber.Ctx) error {
 	req := new(CChainPOSTRequestMethodOnly)
 
 	if err := c.BodyParser(req); err != nil {
-		return err
+		log.Errorf(err.Error())
+		return c.Status(400).SendString("bad request")
 	}
 
 	if utils.StringInSlice(req.Method, BLOCKED_METHODS) {
 		if req.Method == BLOCKED_METHODS[2] {
 			tx := new(SignedTransactionRequest)
 			if err := c.BodyParser(tx); err != nil {
-				return err
+				log.Errorf(err.Error())
+				return c.Status(400).SendString("bad request")
 			}
 			for _, params := range tx.Params {
 				to, from, err := utils.GetFromToTransaction(params)
 				if err != nil {
-					return err
+					log.Errorf(err.Error())
+					return c.Status(400).SendString("bad request")
 				}
 				if to.String() == PRICE_SUBMITTER_ADDRESS && !whitelist.CheckWhitelist(from.String()) {
 					log.Infof("Blocked tx to PriceSubmitter from address %s", from.String())
@@ -77,7 +80,8 @@ func BlockPriceSubmitter(c *fiber.Ctx) error {
 		} else {
 			tx := new(UnsignedTransactionRequest)
 			if err := c.BodyParser(tx); err != nil {
-				return err
+				log.Errorf(err.Error())
+				return c.Status(400).SendString("bad request")
 			}
 			for _, params := range tx.Params {
 				if params.To == PRICE_SUBMITTER_ADDRESS && !whitelist.CheckWhitelist(params.From) {
@@ -89,5 +93,6 @@ func BlockPriceSubmitter(c *fiber.Ctx) error {
 		}
 
 	}
+	log.Infof("Request passed to next host")
 	return c.Next()
 }
