@@ -58,7 +58,7 @@ func BlockPriceSubmitter(c *fiber.Ctx) error {
 		return c.Status(400).SendString("bad request")
 	}
 
-	if utils.StringInSlice(req.Method, BLOCKED_METHODS) {
+	if utils.StringInSlice(req.Method, BLOCKED_METHODS) { // if method is "eth_sendRawTransaction"
 		if req.Method == BLOCKED_METHODS[2] {
 			tx := new(SignedTransactionRequest)
 			if err := c.BodyParser(tx); err != nil {
@@ -66,7 +66,7 @@ func BlockPriceSubmitter(c *fiber.Ctx) error {
 				return c.Status(400).SendString("bad request")
 			}
 			for _, params := range tx.Params {
-				to, from, err := utils.GetFromToTransaction(params)
+				to, from, err := utils.GetFromToTransaction_EIP1559(params)
 				if err != nil {
 					log.Errorf(err.Error())
 					return c.Status(400).SendString("bad request")
@@ -77,7 +77,7 @@ func BlockPriceSubmitter(c *fiber.Ctx) error {
 					return c.Status(200).JSON(blocked_response)
 				}
 			}
-		} else {
+		} else { // if method is "eth_sendTransaction" or "eth_signTransaction"
 			tx := new(UnsignedTransactionRequest)
 			if err := c.BodyParser(tx); err != nil {
 				log.Errorf(err.Error())
@@ -93,6 +93,5 @@ func BlockPriceSubmitter(c *fiber.Ctx) error {
 		}
 
 	}
-	log.Infof("Request passed to next host")
 	return c.Next()
 }
